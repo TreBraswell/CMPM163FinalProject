@@ -48,26 +48,6 @@ scene.add(mesh);
 var i =1;
 var shift = true;
 function animate() {
-		
-			geo.rotateX(-0.1);
-			//geo.rotateY(-0.1);
-			//geo.rotateZ(-0.01);
-			mesh.position.z= mesh.position.z + .01;
-			if(i%10==0)
-			{
-				shift = !shift;
-			}
-			if(shift)
-			{
-				
-				geo.scale(1.111,1.111,1.111);
-				
-			}
-			else
-			{ 
-				geo.scale(.9,.9,.9);
-			}
-			i++;
 particles.forEach(p => {
 p.velocity.add(p.acceleration);
 p.position.add(p.velocity);
