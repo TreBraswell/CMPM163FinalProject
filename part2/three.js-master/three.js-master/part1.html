@@ -38,8 +38,14 @@ function init() {
         bevelSegments: 3
       } );
       geometry.center();
+      var group = new THREE.Group();
       var material = new THREE.MeshNormalMaterial();
       var mesh = new THREE.Mesh( geometry, material );
+      var i;
+      for( i = 0; i<10; i++)
+      {
+        group.add(mesh.copy());
+      }
     	scene.add( mesh );
     } );
 
