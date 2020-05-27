@@ -42,11 +42,15 @@ function init() {
       var material = new THREE.MeshNormalMaterial();
       var mesh = new THREE.Mesh( geometry, material );
       var i;
+      var children = [];
       for( i = 0; i<10; i++)
       {
-        group.add(mesh.copy());
+        var child = mesh.clone ();
+        child.position.y=  child.position.y+i;
+        children.push(child);
+        scene.add( child );
       }
-    	scene.add( mesh );
+    	
     } );
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
