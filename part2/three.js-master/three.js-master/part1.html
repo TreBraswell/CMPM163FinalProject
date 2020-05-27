@@ -27,7 +27,18 @@ function init() {
     
     var loader = new THREE.FontLoader();
     loader.load( 'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function ( font ) {
-      var geometry = new THREE.TextGeometry( 'Hello three.js!', {
+      
+      var group = new THREE.Group();
+      var material = new THREE.MeshNormalMaterial();
+     var amount = 10;
+      var r;
+      var  gone = ["boy","what","are","you","doing","with","that","head","look","at","the","top","of","his","head"]
+      var children = [];
+      for( r = 0; r<amount; r++)
+      {
+        for(c=0;c<amount; c++)
+        {
+        var geometry = new THREE.TextGeometry( gone[c], {
         font: font,
         size: 1,
         height: 0.5,
@@ -37,18 +48,14 @@ function init() {
         bevelSize: 0.05,
         bevelSegments: 3
       } );
-      geometry.center();
-      var group = new THREE.Group();
-      var material = new THREE.MeshNormalMaterial();
-      var mesh = new THREE.Mesh( geometry, material );
-      var i;
-      var children = [];
-      for( i = 0; i<10; i++)
-      {
+        var mesh = new THREE.Mesh( geometry, material );
         var child = mesh.clone ();
-        child.position.y=  child.position.y+i;
+        child.position.y=  r;
+        child.position.x=  c;
+        child.rotation.x = 280;
         children.push(child);
-        scene.add( child );
+        scene.add(child);
+        }
       }
     	
     } );
