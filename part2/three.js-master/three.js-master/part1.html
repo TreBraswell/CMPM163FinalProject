@@ -22,7 +22,7 @@
     var loaded = false;
     var camera, scene, renderer;
     var material = new THREE.MeshNormalMaterial();
-    var amount = 20;
+    var amount = 10;
     var r;
     var gone = ["boy", "what", "are", "you", "doing", "with", "that", "head", "look", "at", "the", "top", "of", "his", "head"]
     var group = [];
@@ -39,10 +39,8 @@
       var loader = new THREE.FontLoader();
       loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
 
-
-
-        for (r = -20; r < amount; r++) {
-          for (c = -20; c < amount; c++) {
+        for (r = -10; r < amount; r++) {
+          for (c = -10; c < amount; c++) {
             var geometry = new THREE.TextGeometry(gone[1], {
               font: font,
               size: .8,
@@ -63,7 +61,8 @@
             else {
               child.rotation.y = 79.8;
             }
-            child.position.z = -10;
+            //child.position.z = -10;
+            child.lookAt(0,0,0);
             group.push(child);
             scene.add(child);
           }
