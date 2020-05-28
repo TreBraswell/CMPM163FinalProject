@@ -1,87 +1,110 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Testing TextGeo</title>
-        <style>
-            body { margin: 0; }
-            canvas { display: block; }
-        </style>
-    </head>
-    <body>
-        <script src="../three.js-master/build/three.js"></script>
-        <script>
+
+<head>
+  <meta charset="utf-8">
+  <title>Testing TextGeo</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="../three.js-master/build/three.js"></script>
+  <script>
+
+    var loaded = false;
+    var camera, scene, renderer;
+    var material = new THREE.MeshNormalMaterial();
+    var amount = 20;
+    var r;
+    var gone = ["boy", "what", "are", "you", "doing", "with", "that", "head", "look", "at", "the", "top", "of", "his", "head"]
+    var group = [];
+    init();
+    animate();
+
+    function init() {
+
+      camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 50);
+      camera.position.z = 8;
+
+      scene = new THREE.Scene();
+
+      var loader = new THREE.FontLoader();
+      loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
 
 
-var camera, scene, renderer;
 
-init();
-animate();
+        for (r = -20; r < amount; r++) {
+          for (c = -20; c < amount; c++) {
+            var geometry = new THREE.TextGeometry(gone[1], {
+              font: font,
+              size: .8,
+              height: 0.2,
+              curveSegments: 4,
+              bevelEnabled: true,
+              bevelThickness: 0.02,
+              bevelSize: 0.05,
+              bevelSegments: 3
+            });
+            var mesh = new THREE.Mesh(geometry, material);
+            var child = mesh.clone();
+            child.position.y = r;
+            child.position.x = c;
+            if (r >= 0 || c >= 0) {
+              child.rotation.y = 80;
+            }
+            else {
+              child.rotation.y = 79.8;
+            }
+            child.position.z = -10;
+            group.push(child);
+            scene.add(child);
+          }
+        }
+        loaded = true;
+      });
 
-function init() {
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(840, 480);
+      document.body.appendChild(renderer.domElement);
 
-    camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 50 );
-    camera.position.z = 8;
+      //
 
-    scene = new THREE.Scene();
-    
-    var loader = new THREE.FontLoader();
-    loader.load( 'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function ( font ) {
-      
-      var group = new THREE.Group();
-      var material = new THREE.MeshNormalMaterial();
-     var amount = 10;
-      var r;
-      var  gone = ["boy","what","are","you","doing","with","that","head","look","at","the","top","of","his","head"]
-      var children = [];
-      for( r = 0; r<amount; r++)
-      {
-        for(c=0;c<amount; c++)
+     
+
+    }
+
+    function animate() {
+      var i;
+      for (i = 0; i <  40; i++) {
+        if(loaded)
         {
-        var geometry = new THREE.TextGeometry( gone[c], {
-        font: font,
-        size: 1,
-        height: 0.5,
-        curveSegments: 4,
-        bevelEnabled: true,
-        bevelThickness: 0.02,
-        bevelSize: 0.05,
-        bevelSegments: 3
-      } );
-        var mesh = new THREE.Mesh( geometry, material );
-        var child = mesh.clone ();
-        child.position.y=  r;
-        child.position.x=  c;
-        child.rotation.x = 280;
-        children.push(child);
-        scene.add(child);
+
+          //group.children[i].position.z++;
+        //if (group.children[i].position.z > 20) {
+          //group.children[i].position.z = -10;
+        //}
         }
       }
-    	
-    } );
+      //console.log("test");
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
 
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild( renderer.domElement );
-    
-    //
-    
-   
+    }
 
-}
-
-function animate() {
-
-    requestAnimationFrame( animate );
-    renderer.render( scene, camera );
-
-}
-           
+    animate();
 
 
 
 
+  </script>
+</body>
 
-        </script>
-    </body>
 </html>
