@@ -31,6 +31,8 @@
     animate();
     var sizediff = 5;
     var filetxt;
+    var i =0;
+    var loaded2 =false;
     function init() {
 
       camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 50);
@@ -38,14 +40,15 @@
 
       scene = new THREE.Scene();
       var loadertext = new THREE.FontLoader();
-      loadertext.load(
+     loadertext.load(
 	// resource URL
 	'example.txt',
-
+    
 	// onLoad callback
 	function ( data ) {
 		// output the text to the console
 		filetxt = data;
+    loaded2 = true;
 	},
 
 	// onProgress callback
@@ -58,12 +61,30 @@
 		console.error( 'An error happened' );
 	}
 );
+  if(loaded2)
+  {
+    filetxt = filetxt.toLowerCase()
+    var final= filetxt.trim().split(" ");
+    var b ;
+    /*for( b = 0; b< final.length; b++)
+    {
+      final[b].replace( /[^a-z]/g, '' );
+    }*/
+   
+    final.sort(() => Math.random() - 0.5);
+  }
+     
       var loader = new THREE.FontLoader();
       loader.load('Font_updated_Regular.json', function (font) {
-
-        for (r = -20; r < amountr; r+=sizediff+1) {
-          for (c = -40; c < amountc; c+=sizediff+1) {
-            var geometry = new THREE.TextGeometry(gone[0], {
+        //r= -20 && c= -40
+        for (r = 0; r < amountr; r+=sizediff+1) {
+          for (c = 0; c < amountc; c+=sizediff+1) {
+            if(i>=final.length)
+            {
+              i = 0;
+              final.sort(() => Math.random() - 0.5);
+            }
+            var geometry = new THREE.TextGeometry(final[i], {
               font: font,
               size: 2,
               height: 2,
@@ -103,6 +124,7 @@
       var i;
       if(loaded)
       {
+        camera.rotation.y ++;
        // group.position.z++
       for (i = 0; i <  group.length; i++) {
         
