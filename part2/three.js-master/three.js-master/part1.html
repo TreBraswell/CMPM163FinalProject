@@ -22,7 +22,7 @@
     var loaded = false;
     var camera, scene, renderer;
     var material = new THREE.MeshNormalMaterial();
-    var amount = 10;
+    var amount = 20;
     var r;
     var gone = ["boy", "what", "are", "you", "doing", "with", "that", "head", "look", "at", "the", "top", "of", "his", "head"]
     var group = [];
@@ -53,6 +53,7 @@
             });
             var mesh = new THREE.Mesh(geometry, material);
             var child = mesh.clone();
+
             child.position.y = r;
             child.position.x = c;
             if (r >= 0 || c >= 0) {
@@ -69,7 +70,7 @@
         }
         loaded = true;
       });
-
+      
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(840, 480);
       document.body.appendChild(renderer.domElement);
@@ -82,15 +83,21 @@
 
     function animate() {
       var i;
-      for (i = 0; i <  40; i++) {
-        if(loaded)
+      if(group.length!=0)
+      {
+       // group.position.z++
+      for (i = 0; i <  group.length; i++) {
+        
+        if(group.length!=0)
         {
-
-          //group.children[i].position.z++;
-        //if (group.children[i].position.z > 20) {
-          //group.children[i].position.z = -10;
-        //}
+          //console.log(group);
+          console.log(group.length);
+         group[i].position.z++;
+        if (group[i].position.z > 20) {
+          group[i].position.z = -10;
         }
+        }
+      }
       }
       //console.log("test");
       requestAnimationFrame(animate);
