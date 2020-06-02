@@ -39,7 +39,7 @@
       scene = new THREE.Scene();
 
       var loader = new THREE.FontLoader();
-      loader.load('Myfont_Regular.json', function (font) {
+      loader.load('Font_updated_Regular.json', function (font) {
 
         for (r = -20; r < amountr; r+=sizediff+1) {
           for (c = -40; c < amountc; c+=sizediff+1) {
@@ -65,6 +65,7 @@
           }
         }
         loaded = true;
+        //console.log(group); 
       });
       //console.log(group.length);
       //console.log(group.length);
@@ -80,13 +81,12 @@
 
     function animate() {
       var i;
-      if(group.length!=0)
+      if(loaded)
       {
        // group.position.z++
       for (i = 0; i <  group.length; i++) {
         
-        if(group.length!=0)
-        {
+        
           //console.log(group);
           console.log(group.length);
          group[i].position.z= group[i].position.z+.3;
@@ -94,7 +94,7 @@
           group[i].position.z = -28;
         }
         }
-      }
+      
       }
       //console.log("test");
       requestAnimationFrame(animate);
