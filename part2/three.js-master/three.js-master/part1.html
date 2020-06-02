@@ -22,12 +22,14 @@
     var loaded = false;
     var camera, scene, renderer;
     var material = new THREE.MeshNormalMaterial();
-    var amount = 20;
+    var amountc = 40;
+    var amountr = 25;
     var r;
     var gone = ["boy", "what", "are", "you", "doing", "with", "that", "head", "look", "at", "the", "top", "of", "his", "head"]
     var group = [];
     init();
     animate();
+    var sizediff = 5;
 
     function init() {
 
@@ -39,12 +41,12 @@
       var loader = new THREE.FontLoader();
       loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
 
-        for (r = -10; r < amount; r++) {
-          for (c = -10; c < amount; c++) {
+        for (r = -20; r < amountr; r+=sizediff+1) {
+          for (c = -40; c < amountc; c+=sizediff+1) {
             var geometry = new THREE.TextGeometry(gone[1], {
               font: font,
-              size: .8,
-              height: 0.2,
+              size: 2,
+              height: 2,
               curveSegments: 4,
               bevelEnabled: true,
               bevelThickness: 0.02,
@@ -53,24 +55,19 @@
             });
             var mesh = new THREE.Mesh(geometry, material);
             var child = mesh.clone();
-
+            child.position.z =-28;
             child.position.y = r;
-            child.position.x = c;
-            if (r >= 0 || c >= 0) {
-              child.rotation.y = 80;
-            }
-            else {
-              child.rotation.y = 79.8;
-            }
+            child.position.x =c;
             //child.position.z = -10;
-            child.lookAt(0,0,0);
+            child.lookAt(0,0,-28);
             group.push(child);
             scene.add(child);
           }
         }
         loaded = true;
       });
-      
+      //console.log(group.length);
+      //console.log(group.length);
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(840, 480);
       document.body.appendChild(renderer.domElement);
@@ -92,9 +89,9 @@
         {
           //console.log(group);
           console.log(group.length);
-         group[i].position.z++;
+         group[i].position.z= group[i].position.z+.3;
         if (group[i].position.z > 20) {
-          group[i].position.z = -10;
+          group[i].position.z = -28;
         }
         }
       }
