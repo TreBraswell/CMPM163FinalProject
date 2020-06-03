@@ -18,28 +18,26 @@
 <body>
   <script src="../three.js-master/build/three.js"></script>
   <script>
-
+    THREE.Cache.enabled = true;
     var loaded = false;
     var camera, scene, renderer;
     var material = new THREE.MeshNormalMaterial();
     var amountc = 40;
     var amountr = 25;
     var r;
-    var gone = ["boy", "what", "are", "you", "doing", "with", "that", "head", "look", "at", "the", "top", "of", "his", "head"]
+    //var gone = ["boy", "what", "are", "you", "doing", "with", "that", "head", "look", "at", "the", "top", "of", "his", "head"]
     var group = [];
-    init();
-    animate();
+    var loadertext =new THREE.FileLoader();
     var sizediff = 5;
     var filetxt;
     var i =0;
     var loaded2 =false;
-    function init() {
-
-      camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 50);
-      camera.position.z = 8;
-
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 50);
+      camera.position.z = 0;
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(840, 480);
+      document.body.appendChild(renderer.domElement);
       scene = new THREE.Scene();
-      var loadertext = new THREE.FontLoader();
      loadertext.load(
 	// resource URL
 	'example.txt',
@@ -47,8 +45,10 @@
 	// onLoad callback
 	function ( data ) {
 		// output the text to the console
-		filetxt = data;
+
+	  filetxt = data;
     loaded2 = true;
+    init();
 	},
 
 	// onProgress callback
@@ -61,6 +61,14 @@
 		console.error( 'An error happened' );
 	}
 );
+    init();
+    animate();
+    
+    
+    function init() {
+
+      
+      
   if(loaded2)
   {
     filetxt = filetxt.toLowerCase()
@@ -75,10 +83,14 @@
   }
      
       var loader = new THREE.FontLoader();
+      console.log(loaded2);
+      if(loaded2)
+       { 
       loader.load('Font_updated_Regular.json', function (font) {
         //r= -20 && c= -40
-        for (r = 0; r < amountr; r+=sizediff+1) {
-          for (c = 0; c < amountc; c+=sizediff+1) {
+        console.log("test");
+        for (r = -20; r < amountr; r+=sizediff+1) {
+          for (c = -40; c < amountc; c+=sizediff+1) {
             if(i>=final.length)
             {
               i = 0;
@@ -86,8 +98,8 @@
             }
             var geometry = new THREE.TextGeometry(final[i], {
               font: font,
-              size: 2,
-              height: 2,
+              size: 3,
+              height: .4,
               curveSegments: 4,
               bevelEnabled: true,
               bevelThickness: 0.02,
@@ -103,16 +115,16 @@
             child.lookAt(0,0,-28);
             group.push(child);
             scene.add(child);
+            i++;
           }
         }
         loaded = true;
         //console.log(group); 
       });
+      }
       //console.log(group.length);
       //console.log(group.length);
-      renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setSize(840, 480);
-      document.body.appendChild(renderer.domElement);
+      
 
       //
 
@@ -124,14 +136,14 @@
       var i;
       if(loaded)
       {
-        camera.rotation.y ++;
+        camera.rotation.z = camera.rotation.z +.01;
        // group.position.z++
       for (i = 0; i <  group.length; i++) {
         
         
           //console.log(group);
           console.log(group.length);
-         group[i].position.z= group[i].position.z+.3;
+         group[i].position.z= group[i].position.z+.04;
         if (group[i].position.z > 20) {
           group[i].position.z = -28;
         }
