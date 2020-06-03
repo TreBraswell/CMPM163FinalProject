@@ -22,9 +22,11 @@
     var loaded = false;
     var camera, scene, renderer;
     var material = new THREE.MeshNormalMaterial();
-    var amountc = 40;
-    var amountr = 25;
+    var amountc = 4;
+    var amountr = 4;
     var r;
+    
+    
     //var gone = ["boy", "what", "are", "you", "doing", "with", "that", "head", "look", "at", "the", "top", "of", "his", "head"]
     var group = [];
     var loadertext =new THREE.FileLoader();
@@ -33,7 +35,16 @@
     var i =0;
     var doonce = true;
     var loaded2 =false;
+    //-20 -15
+    //20 10
+    var startx = -7;
+    var starty = -5;
+    var endx = 4;
+    var endy = 5;
+    var cdiff = (Math.abs(startx)+endx)/amountc;
+    var rdiff = (Math.abs(starty)+endy)/amountr;
     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 50);
+    
       camera.position.z = 0;
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(840, 480);
@@ -84,24 +95,15 @@
   }
      
       var loader = new THREE.FontLoader();
-      console.log(loaded2);
+     // console.log(loaded2);
       if(loaded2)
        { 
       loader.load('Font_updated_Regular.json', function (font) {
         //r= -20 && c= -40
-        console.log("test");
-        var geometry = new THREE.TextGeometry(final[i], {
-              font: font,
-              size: 1,
-              height: .4,
-              curveSegments: 4,
-              bevelEnabled: true,
-              bevelThickness: 0.02,
-              bevelSize: 0.05,
-              bevelSegments: 3
-            })
-        for (r = -10; r < amountr; r+=sizediff+1) {
-          for (c = -30; c < amountc; c+=sizediff+1) {
+        //console.log("test");
+
+        for (r = starty; r <= endy; r+=rdiff) {
+          for (c = startx; c <= endx; c+=cdiff ) {
             if(i>=final.length)
             {
               i = 0;
@@ -109,7 +111,7 @@
             }
             var geometry = new THREE.TextGeometry(final[i], {
               font: font,
-              size: 5.5,
+              size: 2.5,
               height: .4,
               curveSegments: 4,
               bevelEnabled: true,
@@ -117,13 +119,14 @@
               bevelSize: 0.05,
               bevelSegments: 3
             });
+            
             var mesh = new THREE.Mesh(geometry, material);
             var child = mesh.clone();
-            child.position.z =-28;
+            child.position.z =-10;
             child.position.y = r;
             child.position.x =c;
             //child.position.z = -10;
-            child.lookAt(0,0,-28);
+            child.lookAt(scene.position.x,scene.position.y,-10);
             group.push(child);
             scene.add(child);
             i++;
@@ -133,10 +136,9 @@
         //console.log(group); 
       });
       }
-      console.log(group.length);
+      //console.log(group.length);
       //console.log(group.length);
       
-
       //
 
      
@@ -152,40 +154,25 @@
 
       if(loaded)
       {
-        //camera.rotation.z = camera.rotation.z +.01;
+        camera.rotation.z = camera.rotation.z +.003;
        // group.position.z++
       for (i = 0; i <  group.length; i++) {
         
-        
-          //console.log(group);
-          console.log(group.length);
-         //group[i].position.z= group[i].position.z+.04;
-         camera.updateMatrix();
-camera.updateMatrixWorld();
-var frustum = new THREE.Frustum();
-frustum.setFromMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));  
+
+         group[i].position.z= group[i].position.z+.02;
+         
+
 
 // Your 3d point to check
 var pos = group[i].position;
-if(doonce)
-{
-  doonce = false;
-  if (frustum.containsPoint(pos)) {
-    // Do something with the position...
-}
-else 
-{
-  console.log(group[i].position);
-}
-}
 
-        if (group[i].position.z > 20) {
-          group[i].position.z = -28;
+        if (group[i].position.z > 5) {
+          group[i].position.z = -10;
         }
         }
       
       }
-      //console.log("test");
+
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
 
