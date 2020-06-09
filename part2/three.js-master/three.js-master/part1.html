@@ -111,13 +111,12 @@
             }
             var geometry = new THREE.TextGeometry(final[i], {
               font: font,
-              size: 2.5,
-              height: .4,
-              curveSegments: 4,
-              bevelEnabled: true,
-              bevelThickness: 0.02,
-              bevelSize: 0.05,
-              bevelSegments: 3
+              size: 2,
+                height: .3,
+                curveSegments: 1,
+                bevelThickness: .1,
+	            	bevelSize: .1,
+		            bevelSegments: 1,
             });
             
             var mesh = new THREE.Mesh(geometry, material);
